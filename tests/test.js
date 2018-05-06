@@ -404,3 +404,198 @@ describe("Doubly Linked List", function() {
     });
   });
 });
+
+describe("Stack", () => {
+
+  describe("Creating", () => {
+
+    it("create stack without size argument will throw Error('Size argument missed')", () => {
+      function mustThrow() {
+        const stack = new Stack();
+      }
+      assert.throws(mustThrow, Error, Errors.ARGUMENTS_MISSED);
+    });
+
+    it("create stack with wrong type of size argument will throw Error('Invalid type of size argument')", () => {
+      function mustThrow() {
+        const stack = new Stack("string");
+      }
+      assert.throws(mustThrow, Error, Errors.INVALID_ARGUMENT_TYPE);
+    });
+
+    it("new stack should have correct `size` property", () => {
+      const size = 10;
+      const stack = new Stack(size);
+      assert.equal(stack.size, size);
+    });
+
+    it("new stack should have `top` property equal to -1", () => {
+      const stack = new Stack(10);
+      assert.equal(stack.top, -1);
+    });  
+
+  });
+  
+  describe("Actions", () => {
+    
+    describe("peek() - get top element without removing it", () => {
+
+      it("call peek() with any args will throw Error('This method not take any arguments')", () => {
+        const stack = new Stack(10);
+        function fn() {
+          stack.peek("some", "arguments");
+        }
+        assert.throws(fn, Error, Errors.ARGUMENTS_DENIED);
+      });
+
+      it("call peek() on empty stack should return `null`", () => {
+        const stack = new Stack(10);
+        assert.isNull(stack.peek());
+      });
+
+      it("peek() should return top element", () => {
+        const stack = new Stack(2);
+        stack.push(12);
+        assert.equal(stack.peek(), 12);
+      });
+    });
+
+    describe("isFull() - check if stack is full", () => {
+
+      it("call isFull() with any args will throw Error('This method not take any arguments')", () => {
+        const stack = new Stack(10);
+        function fn() {
+          stack.isFull("some", "arguments");
+        }
+        assert.throws(fn, Error, Errors.ARGUMENTS_DENIED);
+      });
+
+      it("should return false if stack is empty", () => {
+        const stack = new Stack(10);
+        assert.isFalse(stack.isFull());
+      });
+
+      it("should return true if stack is full", () => {
+        const stack = new Stack(2);
+        stack.stack = [12, 23];
+        stack.top = 1;
+        assert.isTrue(stack.isFull());
+      });
+
+    });
+
+    describe("isEmpty() - check iof stack is empty", () => {
+
+      it("call isEmpty() with any args will throw Error('This method not take any arguments')", () => {
+        const stack = new Stack(10);
+        function fn() {
+          stack.isEmpty("some", "arguments");
+        }
+        assert.throws(fn, Error, Errors.ARGUMENTS_DENIED);
+      });
+
+      it("should return true if stack is empty", () => {
+        const stack = new Stack(10);
+        assert.isTrue(stack.isEmpty());
+      });
+
+      it("should return false if stack is not empty", () => {
+        const stack = new Stack(2);
+        stack.stack = [12];
+        stack.top = 0;
+        assert.isFalse(stack.isEmpty());
+      });
+
+    });
+
+    describe("push() - add new alement at the top of stack", () => {
+
+      it("call push() without args will throw Error('One or many arguments missed')", () => {
+        const stack = new Stack(10);
+        function mustThrow() {
+          stack.push();
+        }
+        assert.throws(mustThrow, Error, Errors.ARGUMENTS_MISSED);
+      });
+
+      it("throw Error('Stack is full')", () => {
+        const stack = new Stack(2);
+        stack.stack = [23, 34];
+        stack.top = 1;
+        
+        function fn() {
+          stack.push(45); 
+        }
+        assert.throws(fn, Error, Errors.STACK_IS_FULL);
+      });
+
+      it("push() will correctly add new element", () => {
+        const stack = new Stack(2);
+        stack.push(12);
+        assert.equal(stack.top, 0);
+        assert.equal(stack.peek(), 12);
+      });
+
+    });
+
+    describe("pop() - remove top element from the stack", () => {
+
+      it("call pop() with args will throw Error('This method not take any arguments')", () => {
+        const stack = new Stack(10);
+        function fn() {
+          stack.pop("some", "args");
+        }
+        assert.throws(fn, Error, Errors.ARGUMENTS_DENIED);
+      });
+
+      it("throw Error('Stack is empty')", () => {
+        const stack = new Stack(10);
+        function fn() {
+          stack.pop();
+        }
+        assert.throws(fn, Error, Errors.STACK_IS_EMPTY);
+      });
+
+      it("correctly pop top element", () => {
+        const stack = new Stack(2);
+        stack.push(12);
+        stack.push(23);
+        stack.pop();
+        assert.equal(stack.peek(), 12);
+        assert.equal(stack.top, 0);
+      });
+
+    });
+
+    describe("print() - print all elements from top to bottom", () => {
+      
+      it("throw Error('This method not take any arguments')", () => {
+        const stack = new Stack(10);
+        function fn() {
+          stack.print("some", "args");
+        }
+        assert.throws(fn, Error, Errors.ARGUMENTS_DENIED);
+      });
+
+      it("return empty array if stack is empty", () => {
+        const stack = new Stack(10);
+        const res = stack.print();
+        assert.isArray(res);
+        assert.equal(res.length, 0);
+      });
+
+      it("return non-empty array if stack isn't empty", () => {
+        const stack = new Stack(10);
+        stack.push(12);
+        stack.push(23);
+        stack.push(34);
+        const res = stack.print();
+        assert.isArray(res);
+        assert.equal(res.length, 3);
+      });
+
+    });
+
+  });
+
+});
