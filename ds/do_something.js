@@ -3,9 +3,15 @@
  * Find results at Developers Console.
  */
  
-const dll = new DoublyLinkedList();
-dll.add(1);
-dll.add(2);
-dll.add(3);
-dll.add(4);
-dll.show();
+const stack = new Stack(5);
+stack.push(12);
+stack.push(23);
+stack.push(34);
+stack.push(45);
+stack.push(56);
+
+console.log(stack.print());
+
+stack.pop();
+
+console.log(stack.print());
